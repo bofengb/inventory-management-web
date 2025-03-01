@@ -11,29 +11,28 @@ import {
   Tooltip,
 } from "recharts";
 import {
-    useGetOrderByStatusQuery,
-    useGetPaymentByMethodQuery,
-    useGetTransactionByTypeQuery,
+  useGetOrderByStatusQuery,
+  useGetPaymentByMethodQuery,
+  useGetTransactionByTypeQuery,
 } from "@/state/api";
 
-
 export interface OrderByStatus {
-    orderId: number;
-    status: string;
-    createdAt: string;
-  }
-  
-  export interface PaymentByMethod {
-    paymentId: number;
-    method: string;
-    timestamp: string;
-  }
-  
-  export interface TransactionByType {
-    transactionId: number;
-    type: string;
-    timestamp: string;
-  }
+  orderId: number;
+  status: string;
+  createdAt: string;
+}
+
+export interface PaymentByMethod {
+  paymentId: number;
+  method: string;
+  timestamp: string;
+}
+
+export interface TransactionByType {
+  transactionId: number;
+  type: string;
+  timestamp: string;
+}
 
 // Utility function to parse dates to YYYY-MM-DD format.
 const parseDate = (dateString: string) => {
@@ -144,7 +143,10 @@ const Page = () => {
     isLoading: isTransactionsLoading,
     isError: isTransactionsError,
   } = useGetTransactionByTypeQuery();
-  const transactions = useMemo(() => transactionsData ?? [], [transactionsData]);
+  const transactions = useMemo(
+    () => transactionsData ?? [],
+    [transactionsData]
+  );
 
   const aggregatedTransactions = useMemo(() => {
     const filtered = transactions
@@ -178,28 +180,18 @@ const Page = () => {
         {}
       );
     return Object.values(filtered);
-  }, [transactions, selectedTransactionType, transactionStartDate, transactionEndDate]);
+  }, [
+    transactions,
+    selectedTransactionType,
+    transactionStartDate,
+    transactionEndDate,
+  ]);
 
-//   const classNames = {
-//     label: "block text-sm font-medium text-gray-700",
-//     selectInput:
-//       "mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md",
-//   };
-
-//   const classNames = {
-//     label: "block text-sm font-medium text-gray-700 dark:text-gray-300",
-//     selectInput:
-//       "mt-1 block w-full pl-3 pr-10 py-2 text-base text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-indigo-500 dark:focus:border-indigo-400 sm:text-sm rounded-md",
-//   };
-
-const classNames = {
+  const classNames = {
     label: "block text-sm font-medium text-foreground",
     selectInput:
       "mt-1 block w-full pl-3 pr-10 py-2 text-base bg-background text-foreground border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md",
   };
-  
-  
-  
 
   return (
     <div>
@@ -411,10 +403,7 @@ const classNames = {
             </h3>
             <div className="space-y-4">
               <div>
-                <label
-                  htmlFor="transaction-type"
-                  className={classNames.label}
-                >
+                <label htmlFor="transaction-type" className={classNames.label}>
                   Transaction Type
                 </label>
                 <select
@@ -422,9 +411,7 @@ const classNames = {
                   name="transaction-type"
                   className={classNames.selectInput}
                   defaultValue="All"
-                  onChange={(e) =>
-                    setSelectedTransactionType(e.target.value)
-                  }
+                  onChange={(e) => setSelectedTransactionType(e.target.value)}
                 >
                   <option>All</option>
                   <option>PURCHASE</option>

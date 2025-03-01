@@ -6,7 +6,15 @@ import { TrendingUp } from "lucide-react";
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 const RADIAN = Math.PI / 180;
 
-const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }:{
+const renderCustomizedLabel = ({
+  cx,
+  cy,
+  midAngle,
+  innerRadius,
+  outerRadius,
+  percent,
+  index,
+}: {
   cx: number;
   cy: number;
   midAngle: number;
@@ -20,7 +28,13 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
   return (
-    <text x={x} y={y} fill="white" textAnchor={x > cx ? "start" : "end"} dominantBaseline="central">
+    <text
+      x={x}
+      y={y}
+      fill="white"
+      textAnchor={x > cx ? "start" : "end"}
+      dominantBaseline="central"
+    >
       {`${(percent * 100).toFixed(0)}%`}
     </text>
   );
@@ -37,7 +51,10 @@ const CardExpenseSummary = () => {
     value: item.total,
   }));
 
-  const totalExpenses = expenseCategories.reduce((acc, category) => acc + category.value, 0);
+  const totalExpenses = expenseCategories.reduce(
+    (acc, category) => acc + category.value,
+    0
+  );
   const formattedTotalExpenses = totalExpenses.toFixed(2);
 
   return (
@@ -47,7 +64,9 @@ const CardExpenseSummary = () => {
       ) : (
         <>
           <div>
-            <h2 className="text-lg font-semibold mb-2 px-7 pt-5">Expense Summary</h2>
+            <h2 className="text-lg font-semibold mb-2 px-7 pt-5">
+              Expense Summary
+            </h2>
             <hr />
           </div>
           <div className="xl:flex justify-between pr-7">
@@ -65,19 +84,25 @@ const CardExpenseSummary = () => {
                     dataKey="value"
                   >
                     {expenseCategories.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
                     ))}
                   </Pie>
                 </PieChart>
               </ResponsiveContainer>
-              {/* <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center basis-2/5">
-                <span className="font-bold text-xl">${formattedTotalExpenses}</span>
-              </div> */}
             </div>
             <ul className="flex flex-col justify-around items-center xl:items-start py-5 gap-3">
               {expenseCategories.map((entry, index) => (
-                <li key={`legend-${index}`} className="flex items-center text-xs">
-                  <span className="mr-2 w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[index % COLORS.length] }}></span>
+                <li
+                  key={`legend-${index}`}
+                  className="flex items-center text-xs"
+                >
+                  <span
+                    className="mr-2 w-3 h-3 rounded-full"
+                    style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                  ></span>
                   {entry.name}
                 </li>
               ))}
@@ -89,16 +114,12 @@ const CardExpenseSummary = () => {
               <div className="mt-3 flex justify-between items-center px-7 mb-4">
                 <div className="pt-2">
                   <p className="text-sm">
-                    Total Expenses: <span className="font-semibold">
-                      {/* ${expenseSummary.totalExpenses.toFixed(2)} */}
+                    Total Expenses:{" "}
+                    <span className="font-semibold">
                       ${formattedTotalExpenses}
-                      </span>
+                    </span>
                   </p>
                 </div>
-                {/* <span className="flex items-center mt-2">
-                  <TrendingUp className="mr-2 text-green-500" />
-                  30%
-                </span> */}
               </div>
             )}
           </div>

@@ -7,6 +7,7 @@ import {
   CircleDollarSign,
   Clipboard,
   Icon,
+  LaptopMinimalCheck,
   Layout,
   LucideIcon,
   Menu,
@@ -130,6 +131,12 @@ const Sidebar = () => {
           href="/customers"
           icon={Users}
           label="Customers"
+          isCollapsed={isSidebarCollapsed}
+        />
+        <SidebarLink
+          href="/notifications"
+          icon={LaptopMinimalCheck}
+          label="Notifications"
           isCollapsed={isSidebarCollapsed}
         />
         <SidebarLink

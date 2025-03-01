@@ -14,14 +14,13 @@ const columns: GridColDef[] = [
   { field: "createdAt", headerName: "Join Time", width: 220 },
 ];
 
-
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
-  '& .MuiDataGrid-columnHeaders': {
-    backgroundColor: theme.palette.mode === 'dark' ? '#424242' : '#fff',
-    color: theme.palette.mode === 'dark' ? '#fff' : '#000',
+  "& .MuiDataGrid-columnHeaders": {
+    backgroundColor: theme.palette.mode === "dark" ? "#424242" : "#fff",
+    color: theme.palette.mode === "dark" ? "#fff" : "#000",
   },
-  '& .MuiDataGrid-cell': {
-    borderColor: theme.palette.mode === 'dark' ? '#555' : '#e0e0e0',
+  "& .MuiDataGrid-cell": {
+    borderColor: theme.palette.mode === "dark" ? "#555" : "#e0e0e0",
   },
 }));
 
@@ -30,10 +29,9 @@ const Customers = () => {
 
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
 
-   // Optionally, you can create a theme here too
-   const theme = createTheme({
+  const theme = createTheme({
     palette: {
-      mode: isDarkMode ? 'dark' : 'light',
+      mode: isDarkMode ? "dark" : "light",
     },
   });
 
@@ -43,28 +41,30 @@ const Customers = () => {
 
   if (isError || !customers) {
     return (
-      <div className="text-center text-red-500 py-4">Failed to fetch customers</div>
+      <div className="text-center text-red-500 py-4">
+        Failed to fetch customers
+      </div>
     );
   }
 
   return (
     <ThemeProvider theme={theme}>
-    <div className="flex flex-col">
-      <Header name="Users" />
-      <StyledDataGrid
-        rows={customers}
-        columns={columns}
-        getRowId={(row) => row.id}
-        // checkboxSelection
-        slots={{ toolbar: GridToolbar }}
-        slotProps={{
+      <div className="flex flex-col">
+        <Header name="Users" />
+        <StyledDataGrid
+          rows={customers}
+          columns={columns}
+          getRowId={(row) => row.id}
+          // checkboxSelection
+          slots={{ toolbar: GridToolbar }}
+          slotProps={{
             toolbar: {
               showQuickFilter: true,
             },
           }}
-        className="bg-white shadow rounded-lg border border-gray-200 mt-5 !text-gray-700"
-      />
-    </div>
+          className="bg-white shadow rounded-lg border border-gray-200 mt-5 !text-gray-700"
+        />
+      </div>
     </ThemeProvider>
   );
 };

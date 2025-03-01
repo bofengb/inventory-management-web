@@ -30,10 +30,10 @@ const CreateProductModal = ({
       ...formData,
       [name]:
         name === "basePrice" || name === "rating"
-        //   ? parseFloat(value)
-        //   : value,
-        ? value === "" ? "" : parseFloat(value)
-        : value,
+          ? value === ""
+            ? ""
+            : parseFloat(value)
+          : value,
     });
   };
 
@@ -42,7 +42,7 @@ const CreateProductModal = ({
     onCreate(formData);
     onClose();
   };
-  
+
   if (!isOpen) return null;
 
   const labelCssStyles = "block text-sm font-medium text-gray-700";
@@ -78,25 +78,9 @@ const CreateProductModal = ({
             placeholder="Price"
             onChange={handleChange}
             value={formData.basePrice}
-            // value={formData.basePrice === "" || isNaN(formData.basePrice) ? "" : formData.basePrice}
             className={inputCssStyles}
             required
           />
-        
-
-          {/* STOCK QUANTITY */}
-          {/* <label htmlFor="stockQuantity" className={labelCssStyles}>
-            Stock Quantity
-          </label>
-          <input
-            type="number"
-            name="stockQuantity"
-            placeholder="Stock Quantity"
-            onChange={handleChange}
-            value={formData.stockQuantity}
-            className={inputCssStyles}
-            required
-          /> */}
 
           {/* RATING */}
           <label htmlFor="rating" className={labelCssStyles}>
@@ -129,6 +113,7 @@ const CreateProductModal = ({
         </form>
       </div>
     </div>
-  );};
+  );
+};
 
 export default CreateProductModal;

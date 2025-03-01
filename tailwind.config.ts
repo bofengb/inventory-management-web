@@ -36,7 +36,7 @@ const generateThemeObject = (colors: any, mapping: any, invert = false) => {
     });
   });
   return theme;
-}
+};
 
 const lightTheme = generateThemeObject(colors, shadeMapping);
 const darkTheme = generateThemeObject(colors, shadeMapping, true);
@@ -51,7 +51,7 @@ const themes = {
     white: colors.gray["950"],
     black: colors.gray["50"],
   },
-}
+};
 
 export default {
   darkMode: "class",

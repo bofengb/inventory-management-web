@@ -26,7 +26,7 @@ export interface OrderAnalysis {
   orderId: number;
   orderCreatedAt: string;
   orderTotalAmount: number;
-  totalDiscount: number
+  totalDiscount: number;
 }
 
 export interface OrderSummary {
@@ -110,9 +110,15 @@ export interface TransactionByType {
   timestamp: string;
 }
 
+export interface Notification {
+  id: number;
+  message: string;
+  productId: number;
+  createdAt: string;
+  read: boolean;
+}
 
-
-
+// #################################
 
 export interface SalesSummary {
   salesSumamryId: string;
@@ -162,17 +168,29 @@ export const api = createApi({
 
   // tagTypes can be used to define tags for managing cache invalidation.
   // Although empty here, you can add tag names that represent types of data your API fetches.
-  tagTypes: ["DashboardMetrics", "TopProducts", "SalesAnalysis", "PurchaseAnalysis", "OrderAnalysis", "OrderSummary", "ExpenseAnalysis", "StatisticAnalysis", "Products", "ProductsSearch", "OrderDetails", "Customers", "OrderByStatus", "PaymentByMethod", "TransactionByType"],
+  tagTypes: [
+    "DashboardMetrics",
+    "TopProducts",
+    "SalesAnalysis",
+    "PurchaseAnalysis",
+    "OrderAnalysis",
+    "OrderSummary",
+    "ExpenseAnalysis",
+    "StatisticAnalysis",
+    "Products",
+    "ProductsSearch",
+    "OrderDetails",
+    "Customers",
+    "OrderByStatus",
+    "PaymentByMethod",
+    "TransactionByType",
+    "Notification",
+  ],
 
   // endpoints is a function where you define different endpoints for your API.
   // Each endpoint can be a query (for fetching data) or a mutation (for modifying data).
   // In this example, no endpoints are defined yet, so it returns an empty object.
   endpoints: (build) => ({
-    // getDashboardMetrics: build.query<DashboardMetrics, void>({
-    //   query: () => "/rest/dashboard",
-    //   providesTags: ["DashboardMetrics"],
-    // }),
-
     getTopProduct: build.query<TopProduct[], void>({
       query: () => "/rest/products/top",
       providesTags: ["TopProducts"],
@@ -183,29 +201,29 @@ export const api = createApi({
     }),
     getPurchaseAnalysis: build.query<PurchaseAnalysis[], void>({
       query: () => "/rest/purchase/analysis",
-      providesTags: ["PurchaseAnalysis"]
+      providesTags: ["PurchaseAnalysis"],
     }),
     getOrderAnalysis: build.query<OrderAnalysis[], void>({
       query: () => "/rest/order/order-discount-trends",
-      providesTags: ["OrderAnalysis"]
+      providesTags: ["OrderAnalysis"],
     }),
     getOrderSummary: build.query<OrderSummary, void>({
       query: () => "/rest/order/order-discount-summary",
-      providesTags: ["OrderSummary"]
+      providesTags: ["OrderSummary"],
     }),
     getExpenseAnalysis: build.query<ExpenseAnalysis[], void>({
       query: () => "/rest/expense/breakdown",
-      providesTags: ["ExpenseAnalysis"]
+      providesTags: ["ExpenseAnalysis"],
     }),
     getStatisticAnalysis: build.query<StatisticAnalysis, void>({
       query: () => "/rest/statistic",
-      providesTags: ["StatisticAnalysis"]
+      providesTags: ["StatisticAnalysis"],
     }),
     getProducts: build.query<Product[], string | void>({
       query: () => "/rest/products",
       providesTags: ["Products"],
     }),
-    getProductsSearch: build.query<Product[], string | void> ({
+    getProductsSearch: build.query<Product[], string | void>({
       query: (search) => ({
         url: "/rest/products/search",
         params: { name: search },
@@ -218,27 +236,39 @@ export const api = createApi({
         method: "POST",
         body: newProduct,
       }),
-      invalidatesTags: ["Products"],
+      invalidatesTags: ["Products", "Notification"],
     }),
-    getOrderDetails: build.query<OrderDetails[], void> ({
+    getOrderDetails: build.query<OrderDetails[], void>({
       query: () => "/rest/order/details",
       providesTags: ["OrderDetails"],
     }),
-    getCustomers: build.query<Customer[], void> ({
+    getCustomers: build.query<Customer[], void>({
       query: () => "/rest/customers",
       providesTags: ["Customers"],
     }),
-    getOrderByStatus: build.query<OrderByStatus[], void> ({
+    getOrderByStatus: build.query<OrderByStatus[], void>({
       query: () => "/rest/charts/orders",
       providesTags: ["OrderByStatus"],
     }),
-    getPaymentByMethod: build.query<PaymentByMethod[], void> ({
+    getPaymentByMethod: build.query<PaymentByMethod[], void>({
       query: () => "/rest/charts/payments",
       providesTags: ["PaymentByMethod"],
     }),
-    getTransactionByType: build.query<TransactionByType[], void> ({
+    getTransactionByType: build.query<TransactionByType[], void>({
       query: () => "/rest/charts/transactions",
       providesTags: ["TransactionByType"],
+    }),
+    getNotification: build.query<Notification[], void>({
+      query: () => "/rest/notification",
+      providesTags: ["Notification"],
+    }),
+    toggleNotification: build.mutation<Notification, number>({
+      query: (id) => ({
+        url: `/rest/notification/${id}/read`,
+        method: "PUT", // Adjust to POST or PATCH if needed by your backend
+      }),
+      // Invalidate notifications so the list and unread count are refreshed
+      invalidatesTags: ["Notification"],
     }),
   }),
 });
@@ -262,4 +292,6 @@ export const {
   useGetOrderByStatusQuery,
   useGetPaymentByMethodQuery,
   useGetTransactionByTypeQuery,
+  useGetNotificationQuery,
+  useToggleNotificationMutation,
 } = api;

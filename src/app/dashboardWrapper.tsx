@@ -40,7 +40,6 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           isSidebarCollapsed ? "md:pl-24" : "md:pl-72"
         }`}
       >
-    
         <Navbar />
         {children}
       </main>

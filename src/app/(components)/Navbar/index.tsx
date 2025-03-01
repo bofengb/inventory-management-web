@@ -1,8 +1,13 @@
 "use client";
 
 import { useAppDispatch, useAppSelector } from "@/app/redux";
-import { setIsDarkMode, setIsSidebarCollapsed } from "@/state";
-import { Bell, Menu, Moon, Settings, Sun } from "lucide-react";
+import {
+  setIsDarkMode,
+  setIsNotificationOn,
+  setIsSidebarCollapsed,
+} from "@/state";
+import { useGetNotificationQuery } from "@/state/api";
+import { Bell, BellOff, Menu, Moon, Settings, Sun } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -15,6 +20,9 @@ const Navbar = () => {
     (state) => state.global.isSidebarCollapsed
   );
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
+  const isNotificationOn = useAppSelector(
+    (state) => state.global.isNotificationOn
+  );
 
   // This function toggles the sidebar's collapsed state by dispatching an action.
   const toggleSidebar = () => {
@@ -23,6 +31,12 @@ const Navbar = () => {
   const toggleDarkMode = () => {
     dispatch(setIsDarkMode(!isDarkMode));
   };
+
+  const { data: notifications, isLoading } = useGetNotificationQuery();
+  // Filter notifications that are not read
+  const unreadCount = notifications
+    ? notifications.filter((n) => !n.read).length
+    : 0;
 
   return (
     <div className="flex justify-between items-center w-full mb-7">
@@ -34,18 +48,6 @@ const Navbar = () => {
         >
           <Menu className="w-4 h-4" />
         </button>
-
-        {/* <div className="relative">
-          <input
-            type="search"
-            placeholder="Start type to search groups & products"
-            className="pl-10 pr-4 py-2 w-50 md:w-60 border-2 border-gray-300 bg-white rounded-lg focus:outline-none focus:border-blue-500"
-          />
-
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Bell className="text-gray-500" size={20} />
-          </div>
-        </div> */}
       </div>
 
       {/* RIGHT SIDE */}
@@ -60,17 +62,25 @@ const Navbar = () => {
               )}
             </button>
           </div>
-          <div className="relative">
-            <Bell className="cursor-pointer text-gray-500" size={24} />
-            <span className="absolute -top-2 -right-2 inline-flex items-center justify-center px-[0.4rem] py-1 text-xs font-semibold leading-none text-red-100 bg-red-400 rounded-full">
-              3
-            </span>
-          </div>
+
+          {!isNotificationOn ? (
+            <div className="relative">
+              <Link href="/notifications">
+                <Bell className="cursor-pointer text-gray-500" size={24} />
+
+                {unreadCount > 0 && (
+                  <span className="absolute -top-2 -right-2 inline-flex items-center justify-center px-[0.4rem] py-1 text-xs font-semibold leading-none text-red-100 bg-red-400 rounded-full">
+                    {unreadCount}
+                  </span>
+                )}
+              </Link>
+            </div>
+          ) : (
+            <div className="relative">
+              <BellOff className="cursor-pointer text-gray-500" size={24} />
+            </div>
+          )}
           <hr className="w-0 h-7 border-solid border-l border-gray-300 mx-3" />
-          <div className="flex items-center gap-3 cursor-pointer">
-            <div className="w-9 h-9">image</div>
-            <span className="font-semibold">Username</span>
-          </div>
         </div>
         <Link href="/settings">
           <Settings className="cursor-pointer text-gray-500" size={24} />

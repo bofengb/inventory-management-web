@@ -13,7 +13,8 @@ import {
 
 const CardOrderSummary = () => {
   const { data, isLoading } = useGetOrderAnalysisQuery();
-  const { data: orderSummaryData, isLoading: isLoadingSummary } = useGetOrderSummaryQuery();
+  const { data: orderSummaryData, isLoading: isLoadingSummary } =
+    useGetOrderSummaryQuery();
   const orderData = data || [];
 
   const transformedData = orderData.map((order) => ({
@@ -35,7 +36,6 @@ const CardOrderSummary = () => {
     };
     return [`${customNames[name] || name}: $${value.toLocaleString("en")}`];
   };
-  
 
   return (
     <div className="flex flex-col justify-between row-span-2 xl:row-span-3 col-span-1 md:col-span-2 xl:col-span-1 bg-white shadow-md rounded-2xl">
@@ -55,7 +55,9 @@ const CardOrderSummary = () => {
           <div>
             {/* BODY HEADER */}
             <div className="mb-4 mt-7 px-7">
-              <p className="text-xs text-gray-400">Total Order Amount / Total Discount Applied</p>
+              <p className="text-xs text-gray-400">
+                Total Order Amount / Total Discount Applied
+              </p>
               <div className="flex items-center">
                 <p className="text-2xl font-bold">
                   {orderSummaryData
@@ -63,7 +65,7 @@ const CardOrderSummary = () => {
                     : "0"}
                 </p>
                 <p className="px-2">/</p>
-                
+
                 <p className="text-[1rem] font-semibold">
                   {orderSummaryData
                     ? numeral(orderSummaryData.totalDiscount).format("$0.00a")
@@ -80,14 +82,6 @@ const CardOrderSummary = () => {
               >
                 <XAxis dataKey="date" tick={false} axisLine={false} />
                 <YAxis tick={false} tickLine={false} axisLine={false} />
-                {/* <Tooltip
-                  formatter={(value) => [`$${value.toLocaleString("en")}`]}
-                  labelFormatter={(label) => label}
-                /> */}
-                {/* <Tooltip
-                  formatter={(value, name) => [`${name}: $${value.toLocaleString("en")}`]}
-                  labelFormatter={(label) => label}
-                /> */}
                 <Tooltip
                   formatter={customTooltipFormatter}
                   labelFormatter={(label) => label}

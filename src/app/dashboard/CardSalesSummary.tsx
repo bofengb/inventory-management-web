@@ -81,8 +81,14 @@ const CardSalesSummary = () => {
                   })}
                   k
                 </span>
-                <span className={`${(averageChangePercentage > 0) ? "text-red-500" : "text-green-500"} text-green-500 text-sm ml-2`}>
-                  {(averageChangePercentage > 0) ? (
+                <span
+                  className={`${
+                    averageChangePercentage > 0
+                      ? "text-red-500"
+                      : "text-green-500"
+                  } text-green-500 text-sm ml-2`}
+                >
+                  {averageChangePercentage > 0 ? (
                     <TrendingUp className="inline w-4 h-4 mr-1 text-red-500" />
                   ) : (
                     <TrendingDown className="inline w-4 h-4 mr-1 text-green-500" />
@@ -123,7 +129,9 @@ const CardSalesSummary = () => {
                   axisLine={false}
                 />
                 <Tooltip
-                  formatter={(value: number) => [`$${value.toLocaleString("en")}`]}
+                  formatter={(value: number) => [
+                    `$${value.toLocaleString("en")}`,
+                  ]}
                   labelFormatter={(label) => {
                     const date = new Date(label);
                     return date.toLocaleDateString("en-US", {

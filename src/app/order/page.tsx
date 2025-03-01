@@ -14,7 +14,6 @@ const columns: GridColDef[] = [
     headerName: "Amount",
     width: 120,
     type: "number",
-    // valueGetter: (value, row) => `$${row.totalAmount}`,
     // Note: For proper filtering, it’s best that the underlying value remains numeric.
     // You might consider separating the display formatting from the filtering value.
     valueGetter: (value, row) => row.totalAmount,
@@ -29,34 +28,32 @@ const columns: GridColDef[] = [
     headerName: "Order Created Time",
     width: 200,
     type: "dateTime",
-    // valueGetter: (value) => value && new Date(value),
     // Ensure that the underlying value is a Date object for correct filtering.
     valueGetter: (value) => value && new Date(value),
   },
 ];
 
-
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
-  '& .MuiDataGrid-columnHeaders': {
-    backgroundColor: theme.palette.mode === 'dark' ? '#424242' : '#fff',
-    color: theme.palette.mode === 'dark' ? '#fff' : '#000',
+  "& .MuiDataGrid-columnHeaders": {
+    backgroundColor: theme.palette.mode === "dark" ? "#424242" : "#fff",
+    color: theme.palette.mode === "dark" ? "#fff" : "#000",
   },
-  '& .MuiDataGrid-cell': {
-    borderColor: theme.palette.mode === 'dark' ? '#555' : '#e0e0e0',
+  "& .MuiDataGrid-cell": {
+    borderColor: theme.palette.mode === "dark" ? "#555" : "#e0e0e0",
   },
 }));
 
 const Order = () => {
   const { data: orders, isError, isLoading } = useGetOrderDetailsQuery();
 
-    const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
-  
-      // Optionally, you can create a theme here too
-       const theme = createTheme({
-        palette: {
-          mode: isDarkMode ? 'dark' : 'light',
-        },
-      });
+  const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
+
+  // Optionally, you can create a theme here too
+  const theme = createTheme({
+    palette: {
+      mode: isDarkMode ? "dark" : "light",
+    },
+  });
 
   if (isLoading) {
     return <div className="py-4">Loading...</div>;
@@ -72,21 +69,21 @@ const Order = () => {
 
   return (
     <ThemeProvider theme={theme}>
-    <div className="flex flex-col">
-      <Header name="Order" />
-      <StyledDataGrid
-        rows={orders}
-        columns={columns}
-        getRowId={(row) => row.orderId}
-        slots={{ toolbar: GridToolbar }}
-        slotProps={{
+      <div className="flex flex-col">
+        <Header name="Order" />
+        <StyledDataGrid
+          rows={orders}
+          columns={columns}
+          getRowId={(row) => row.orderId}
+          slots={{ toolbar: GridToolbar }}
+          slotProps={{
             toolbar: {
               showQuickFilter: true,
             },
           }}
-        className="bg-white shadow rounded-lg border border-gray-200 mt-5 !text-gray-700"
-      />
-    </div>
+          className="bg-white shadow rounded-lg border border-gray-200 mt-5 !text-gray-700"
+        />
+      </div>
     </ThemeProvider>
   );
 };

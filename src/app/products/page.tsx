@@ -1,6 +1,10 @@
 "use client";
 
-import { useCreateProductMutation, useGetProductsQuery, useGetProductsSearchQuery } from "@/state/api";
+import {
+  useCreateProductMutation,
+  useGetProductsQuery,
+  useGetProductsSearchQuery,
+} from "@/state/api";
 import { PlusCircleIcon, SearchIcon } from "lucide-react";
 import { useState } from "react";
 import Header from "@/app/(components)/Header";
@@ -8,15 +12,14 @@ import Rating from "../(components)/Rating";
 import CreateProductModal from "./CreateProductModal";
 
 type ProductFormData = {
-    name: string;
-    basePrice: number;
-    rating: number;
-  };
+  name: string;
+  basePrice: number;
+  rating: number;
+};
 
 const Products = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-
 
   // When there's no search term, fetch all products.
   const {
@@ -41,22 +44,11 @@ const Products = () => {
   const isLoading = searchTerm ? isLoadingSearch : isLoadingProducts;
   const isError = searchTerm ? isErrorSearch : isErrorProducts;
 
-
-
-
-//   const { data: products, isLoading, isError } = useGetProductsQuery();
-//   const {
-//     data: productSearch,
-//     isLoading: isLoadingSearch,
-//     isError: isErrorSearch,
-//   } = useGetProductsSearchQuery(searchTerm);
-
   const [createProduct] = useCreateProductMutation();
   const handleCreateProduct = async (productData: ProductFormData) => {
     await createProduct(productData);
   };
 
-  
   if (isLoading) {
     return <div className="py-4">Loading...</div>;
   }
@@ -101,7 +93,7 @@ const Products = () => {
         {isLoading ? (
           <div>Loading...</div>
         ) : (
-            displayedProducts?.map((product, index) => (
+          displayedProducts?.map((product, index) => (
             <div
               key={index}
               className="border shadow rounded-md p-4 max-w-full w-full mx-auto"
@@ -121,9 +113,6 @@ const Products = () => {
                   {product.name}
                 </h3>
                 <p className="text-gray-800">${product.basePrice.toFixed(2)}</p>
-                {/* <div className="text-sm text-gray-600 mt-1">
-                  Stock: {product.stockQuality}
-                </div> */}
                 {product.rating && (
                   <div className="flex items-center mt-2">
                     <Rating rating={product.rating} />
