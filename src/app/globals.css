@@ -1,21 +1,37 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Import Tailwind’s base styles, component classes, and utility classes */
+@tailwind base; /* Includes default styles like resets, typography, etc. */
+@tailwind components; /* Allows for defining reusable component styles */
+@tailwind utilities; /* Includes all utility classes provided by Tailwind */
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Apply a consistent box-sizing model to all elements */
+*,
+*::before,
+*::after {
+  box-sizing: border-box; /* Ensures padding and border are included in the element's total width/height */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Set default styles for the entire page */
+html,
+body,
+#root,
+.app {
+  height: 100%;
+  width: 100%;
+
+  /* Tailwind utility classes applied using `@apply` */
+  @apply text-sm;
+  @apply bg-gray-500;
+  @apply text-gray-900;
+}
+
+@media (min-width: 768px) {
+  .custom-grid-rows {
+    grid-template-rows: repeat(8, 20vh);
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@media (min-width: 1280px) {
+  .custom-grid-rows {
+    grid-template-rows: repeat(8, 7.5vh);
+  }
 }
