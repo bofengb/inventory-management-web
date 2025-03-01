@@ -247,7 +247,6 @@ export const api = createApi({
 // but typically you might export auto-generated hooks for each endpoint defined in the endpoints function.
 // For example, if you had an endpoint "getUser", you might export { useGetUserQuery } = api.
 export const {
-  // useGetDashboardMetricsQuery,
   useGetTopProductQuery,
   useGetSalesAnalysisQuery,
   useGetPurchaseAnalysisQuery,
