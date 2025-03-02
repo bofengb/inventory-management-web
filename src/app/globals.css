@@ -35,3 +35,16 @@ body,
     grid-template-rows: repeat(8, 7.5vh);
   }
 }
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.5);
+  opacity: 1;
+}
+.dark input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 1;
+}
+.light input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.5);
+  opacity: 1;
+}

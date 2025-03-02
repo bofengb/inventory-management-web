@@ -14,6 +14,7 @@ import {
   SlidersHorizontal,
   Users,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -84,15 +85,22 @@ const Sidebar = () => {
           isSidebarCollapsed ? "px-5" : "px-8"
         }`}
       >
-        <div>logo</div>
-        <h1
-          className={`${
-            isSidebarCollapsed ? "hidden" : "block"
-          } font-extrabold text-2xl`}
-        >
-          IMS
-        </h1>
-
+        <Link href="/dashboard" className="flex gap-3">
+          <Image
+            src="https://deploy-app-ims.s3.us-east-1.amazonaws.com/logo.png"
+            alt="ims-logo"
+            width={27}
+            height={27}
+            className="rounded w-8 bg-white"
+          />
+          <h1
+            className={`${
+              isSidebarCollapsed ? "hidden" : "block"
+            } font-extrabold text-2xl`}
+          >
+            IMS
+          </h1>
+        </Link>
         <button
           className="md:hidden px-3 py-3 bg-gray-100 rounded-full hover:bg-blue-100"
           onClick={toggleSidebar}

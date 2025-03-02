@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Header from "@/app/(components)/Header";
 import { useAppDispatch, useAppSelector } from "../redux";
 import { setIsDarkMode, setIsNotificationOn } from "@/state";
+import { Toaster, toast } from "sonner";
 
 type UserSetting = {
   label: string;
@@ -44,6 +45,10 @@ const Settings = () => {
     } else if (index === 1) {
       toggleDarkMode(index);
     }
+
+    toast.success(
+      `New settings saved`
+    );
   };
 
   useEffect(() => {
@@ -58,6 +63,8 @@ const Settings = () => {
 
   return (
     <div className="w-full">
+      {/* Render the Toaster component for Sonner toast notifications */}
+      <Toaster richColors closeButton position="bottom-center" />
       <Header name="User Settings" />
       <div className="overflow-x-auto mt-5 shadow-md">
         <table className="min-w-full bg-white rounded-lg">

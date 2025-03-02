@@ -6,6 +6,7 @@ import {
   useGetNotificationQuery,
   useToggleNotificationMutation,
 } from "@/state/api";
+import { Toaster, toast } from "sonner";
 
 function Notifications() {
   const { data: notifications, isLoading } = useGetNotificationQuery();
@@ -19,10 +20,16 @@ function Notifications() {
       )
     : [];
 
-  const handleToggle = async (id: number) => {
+  const handleToggle = async (id: number, read: boolean) => {
     try {
       // Toggle the notification's read status
       await toggleNotification(id).unwrap();
+
+      if (read) {
+        toast.error(`Unread the notification`);
+      } else {
+        toast.success(`Read the notification`);
+      }
     } catch (error) {
       console.error("Failed to toggle notification:", error);
     }
@@ -32,6 +39,8 @@ function Notifications() {
 
   return (
     <div className="w-full">
+      {/* Render the Toaster component for Sonner toast notifications */}
+      <Toaster richColors closeButton position="bottom-center" />
       <Header name="Notifications" />
       <div className="overflow-x-auto mt-5 shadow-md">
         <table className="min-w-full bg-white rounded-lg">
@@ -65,7 +74,9 @@ function Notifications() {
                 </td>
                 <td className="py-2 px-4">
                   <button
-                    onClick={() => handleToggle(notification.id)}
+                    onClick={() =>
+                      handleToggle(notification.id, notification.read)
+                    }
                     className="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded"
                   >
                     Mark as {notification.read ? "Unread" : "Read"}

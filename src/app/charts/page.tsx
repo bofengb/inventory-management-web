@@ -73,7 +73,8 @@ const Page = () => {
         ) => {
           if (!acc[order.status]) {
             acc[order.status] = {
-              name: order.status,
+              // name: order.status,
+              name: order.status.replace(/_/g, " "),
               amount: 0,
               color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
             };
@@ -119,7 +120,8 @@ const Page = () => {
         ) => {
           if (!acc[payment.method]) {
             acc[payment.method] = {
-              name: payment.method,
+              // name: payment.method,
+              name: payment.method.replace(/_/g, " "),
               amount: 0,
               color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
             };
@@ -169,7 +171,8 @@ const Page = () => {
         ) => {
           if (!acc[transaction.type]) {
             acc[transaction.type] = {
-              name: transaction.type,
+              // name: transaction.type,
+              name: transaction.type.replace(/_/g, " "),
               amount: 0,
               color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
             };
@@ -219,9 +222,14 @@ const Page = () => {
                   defaultValue="All"
                   onChange={(e) => setSelectedStatus(e.target.value)}
                 >
-                  <option>All</option>
+                  {/* <option>All</option>
                   <option>COMPLETED</option>
                   <option>PENDING</option>
+                  <option>CANCELED</option> */}
+                  <option value="All">All</option>
+                  <option value="COMPLETED">Completed</option>
+                  <option value="PENDING">Pending</option>
+                  <option value="CANCELED">Canceled</option>
                 </select>
               </div>
               <div>
@@ -313,10 +321,30 @@ const Page = () => {
                   name="payment-method"
                   className={classNames.selectInput}
                   defaultValue="All"
-                  onChange={(e) => setSelectedPaymentMethod(e.target.value)}
+                  // onChange={(e) => setSelectedPaymentMethod(e.target.value)}
+                  onChange={(e) => {
+                    const formattedValue = e.target.value.replace(/\s/g, "_");
+                    setSelectedPaymentMethod(formattedValue);
+                  }}
                 >
-                  <option>All</option>
+                  {/* <option>All</option>
                   <option>CASH</option>
+                  <option>CREDIT_CARDS</option>
+                  <option>DEBIT_CARDS</option>
+                  <option>CHECKS</option>
+                  <option>BANK_TRANSFERS</option>
+                  <option>APPLE_PAY</option>
+                  <option>PAYPAL</option>
+                  <option>MASTER_CARD</option> */}
+                  <option value="All">All</option>
+                  <option value="CASH">Cash</option>
+                  <option value="CREDIT_CARDS">Credit Cards</option>
+                  <option value="DEBIT_CARDS">Debit Cards</option>
+                  <option value="CHECKS">Checks</option>
+                  <option value="BANK_TRANSFERS">Bank Transfers</option>
+                  <option value="APPLE_PAY">Apple Pay</option>
+                  <option value="PAYPAL">PayPal</option>
+                  <option value="MASTER_CARD">Master Card</option>
                 </select>
               </div>
               <div>
@@ -413,9 +441,12 @@ const Page = () => {
                   defaultValue="All"
                   onChange={(e) => setSelectedTransactionType(e.target.value)}
                 >
-                  <option>All</option>
+                  {/* <option>All</option>
                   <option>PURCHASE</option>
-                  <option>REFUND</option>
+                  <option>SALE</option> */}
+                  <option value="All">All</option>
+                  <option value="PURCHASE">Purchase</option>
+                  <option value="SALE">Sale</option>
                 </select>
               </div>
               <div>

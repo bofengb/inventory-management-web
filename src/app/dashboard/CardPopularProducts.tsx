@@ -2,10 +2,36 @@ import { useGetTopProductQuery } from "@/state/api";
 import { ShoppingBag } from "lucide-react";
 import React from "react";
 import Rating from "../(components)/Rating";
+import Image from "next/image";
 
 const CardPopularProducts = () => {
-  // const { data: dashboardMetrics, isLoading } = useGetDashboardMetricsQuery();
   const { data: topProduct, isLoading } = useGetTopProductQuery();
+
+  const generateSlug = (name: string) =>
+    name.toLowerCase().replace(/\s+/g, "-");
+
+  const validSlugs = new Set([
+    "football",
+    "basketball",
+    "tennis-racket",
+    "soccer-jersey",
+    "running-shoes",
+    "baseball-glove",
+    "golf-clubs",
+    "yoga-mat",
+    "cycling-helmet",
+    "skateboard",
+    "cricket-bat",
+    "swimming-goggles",
+    "boxing-gloves",
+    "hockey-stick",
+    "ski-boots",
+    "snowboard",
+    "martial-arts-uniform",
+    "badminton-racket",
+    "volleyball",
+    "rowing-oar",
+  ]);
 
   return (
     <div className="row-span-3 xl:row-span-6 bg-white shadow-md rounded-2xl pb-16">
@@ -18,14 +44,25 @@ const CardPopularProducts = () => {
           </h3>
           <hr />
           <div className="overflow-auto h-full">
-            {/* {dashboardMetrics?.popularProducts.map((product) => ( */}
             {topProduct?.map((product, index) => (
               <div
                 key={index}
                 className="flex items-center justify-between gap-3 px-5 py-7 border-b"
               >
                 <div className="flex items-center gap-3">
-                  <div>img</div>
+                  <Image
+                    src={
+                      product && validSlugs.has(generateSlug(product.name))
+                        ? `https://deploy-app-ims.s3.us-east-1.amazonaws.com/${generateSlug(
+                            product.name
+                          )}.png`
+                        : `https://deploy-app-ims.s3.us-east-1.amazonaws.com/to-be-determined.png`
+                    }
+                    alt={product.name}
+                    width={48}
+                    height={48}
+                    className="rounded-lg w-14 h-14"
+                  />
                   <div className="flex flex-col justify-between gap-1">
                     <div className="font-bold text-gray-700">
                       {" "}
