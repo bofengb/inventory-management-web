@@ -9,7 +9,7 @@ import StoreProvider, { useAppSelector } from "./redux";
 
 // DashboardLayout defines the common layout structure for the dashboard.
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
-  // useAppSelector allows you to read data from the Redux store.
+  // useAppSelector allows us to read data from the Redux store.
   // Here, we're extracting the `isSidebarCollapsed` and `isDarkMode` values from the global slice.
   const isSidebarCollapsed = useAppSelector(
     (state) => state.global.isSidebarCollapsed
@@ -22,8 +22,6 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     if (isDarkMode) {
       document.documentElement.classList.add("dark");
     } else {
-      // Optionally, you might want to remove the 'dark' class if it exists,
-      // but here we simply add a 'light' class.
       document.documentElement.classList.add("light");
     }
   });

@@ -88,7 +88,6 @@ const Settings = () => {
                       <input
                         type="checkbox"
                         className="sr-only peer"
-                        // checked={setting.value as boolean}
                         checked={
                           setting.label === "Dark Mode"
                             ? isDarkMode

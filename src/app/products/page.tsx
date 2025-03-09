@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  useCreateProductMutation,
+  // useCreateProductMutation,
   useGetProductsQuery,
   useGetProductsSearchQuery,
 } from "@/state/api";
@@ -46,15 +46,16 @@ const Products = () => {
   const isLoading = searchTerm ? isLoadingSearch : isLoadingProducts;
   const isError = searchTerm ? isErrorSearch : isErrorProducts;
 
-  const [createProduct] = useCreateProductMutation();
-  const handleCreateProduct = async (productData: ProductFormData) => {
-    await createProduct(productData);
+  // const [createProduct] = useCreateProductMutation();
+  // const handleCreateProduct = async (productData: ProductFormData) => {
+  //   await createProduct(productData);
 
-    toast.success(
-      `Product created successfully for product ${productData.name}`
-    );
-  };
+  //   toast.success(
+  //     `Product created successfully for product ${productData.name}`
+  //   );
+  // };
 
+  // Search bar defocusing issue
   // if (isLoading) {
   //   return <div className="py-4">Loading...</div>;
   // }
@@ -115,13 +116,13 @@ const Products = () => {
       {/* HEADER BAR */}
       <div className="flex justify-between items-center mb-6">
         <Header name="Products" />
-        <button
+        {/* <button
           className="flex items-center bg-blue-500 hover:bg-blue-700 text-gray-200 font-bold py-2 px-4 rounded"
           onClick={() => setIsModalOpen(true)}
         >
           <PlusCircleIcon className="w-5 h-5 mr-2 !text-gray-200" /> Create
           Product
-        </button>
+        </button> */}
       </div>
 
       {/* BODY PRODUCTS LIST */}
@@ -168,11 +169,11 @@ const Products = () => {
       </div>
 
       {/* MODAL */}
-      <CreateProductModal
+      {/* <CreateProductModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onCreate={handleCreateProduct}
-      />
+      /> */}
     </div>
   );
 };

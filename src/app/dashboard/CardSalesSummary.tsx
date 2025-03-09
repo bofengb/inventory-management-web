@@ -17,10 +17,9 @@ const CardSalesSummary = () => {
   const [timeframe, setTimeframe] = useState("weekly");
   const { data, isLoading, isError } = useGetSalesAnalysisQuery(timeframe);
 
-  // Use the new data format (an array of sales data objects)
   const salesData = data || [];
 
-  // Calculate the total sales sum (similar to totalValueSum)
+  // Calculate the total sales sum
   const totalSalesSum = salesData.reduce(
     (acc, curr) => acc + curr.totalSales,
     0

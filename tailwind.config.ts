@@ -2,6 +2,7 @@ import type { Config } from "tailwindcss";
 import { createThemes } from "tw-colors";
 import colors, { black, white } from "tailwindcss/colors";
 
+// Map out base colors, then automatically set them to the oppsite colors when we set it to dark mode.
 const baseColors = [
   "gray",
   "red",

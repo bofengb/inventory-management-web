@@ -118,48 +118,11 @@ export interface Notification {
   read: boolean;
 }
 
-// #################################
-
-export interface SalesSummary {
-  salesSumamryId: string;
-  totalValue: number;
-  changePercentage?: number;
-  date: string;
-}
-
-export interface PurchaseSummary {
-  purchaseSummaryId: string;
-  totalPurchased: number;
-  changePercentage?: number;
-  date: string;
-}
-
-export interface ExpenseSummary {
-  expenseSummaryId: string;
-  totalExpenses: number;
-  date: string;
-}
-
-export interface ExpenseByCategorySummary {
-  expenseCategorySummaryId: string;
-  category: string;
-  amount: string;
-  date: string;
-}
-
-export interface DashboardMetrics {
-  popularProducts: Product[];
-  salesSummary: SalesSummary[];
-  purchaseSummary: PurchaseSummary[];
-  expenseSummary: ExpenseSummary[];
-  expenseByCategorySummary: ExpenseByCategorySummary[];
-}
-
-// Create an API slice using RTK Query. This centralizes how your app communicates with external APIs.
+// Create an API slice using RTK Query. This centralizes how the app communicates with external APIs.
 export const api = createApi({
   // baseQuery is the default function used to fetch data.
   // It is configured with a base URL taken from an environment variable.
-  // This base URL is prepended to all relative URL endpoints defined in your API endpoints.
+  // This base URL is prepended to all relative URL endpoints defined in the API endpoints.
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
 
   // reducerPath is the key under which the generated reducer will be stored in the Redux store.
@@ -167,7 +130,7 @@ export const api = createApi({
   reducerPath: "api",
 
   // tagTypes can be used to define tags for managing cache invalidation.
-  // Although empty here, you can add tag names that represent types of data your API fetches.
+  // Although empty here, we can add tag names that represent types of data API fetches.
   tagTypes: [
     "DashboardMetrics",
     "TopProducts",
@@ -187,9 +150,8 @@ export const api = createApi({
     "Notification",
   ],
 
-  // endpoints is a function where you define different endpoints for your API.
+  // endpoints is a function where we define different endpoints for our API.
   // Each endpoint can be a query (for fetching data) or a mutation (for modifying data).
-  // In this example, no endpoints are defined yet, so it returns an empty object.
   endpoints: (build) => ({
     getTopProduct: build.query<TopProduct[], void>({
       query: () => "/rest/products/top",
@@ -230,14 +192,14 @@ export const api = createApi({
       }),
       providesTags: ["Products"],
     }),
-    createProduct: build.mutation<Product, ProductCreate>({
-      query: (newProduct) => ({
-        url: "/rest/products",
-        method: "POST",
-        body: newProduct,
-      }),
-      invalidatesTags: ["Products", "Notification"],
-    }),
+    // createProduct: build.mutation<Product, ProductCreate>({
+    //   query: (newProduct) => ({
+    //     url: "/rest/products",
+    //     method: "POST",
+    //     body: newProduct,
+    //   }),
+    //   invalidatesTags: ["Products", "Notification"],
+    // }),
     getOrderDetails: build.query<OrderDetails[], void>({
       query: () => "/rest/order/details",
       providesTags: ["OrderDetails"],
@@ -265,7 +227,7 @@ export const api = createApi({
     toggleNotification: build.mutation<Notification, number>({
       query: (id) => ({
         url: `/rest/notification/${id}/read`,
-        method: "PUT", // Adjust to POST or PATCH if needed by your backend
+        method: "PUT",
       }),
       // Invalidate notifications so the list and unread count are refreshed
       invalidatesTags: ["Notification"],
@@ -273,9 +235,6 @@ export const api = createApi({
   }),
 });
 
-// This line is exporting nothing additional from the api object,
-// but typically you might export auto-generated hooks for each endpoint defined in the endpoints function.
-// For example, if you had an endpoint "getUser", you might export { useGetUserQuery } = api.
 export const {
   useGetTopProductQuery,
   useGetSalesAnalysisQuery,
@@ -286,7 +245,7 @@ export const {
   useGetStatisticAnalysisQuery,
   useGetProductsQuery,
   useGetProductsSearchQuery,
-  useCreateProductMutation,
+  // useCreateProductMutation,
   useGetOrderDetailsQuery,
   useGetCustomersQuery,
   useGetOrderByStatusQuery,
