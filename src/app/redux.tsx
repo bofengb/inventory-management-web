@@ -9,9 +9,9 @@ import {
   useSelector,
   Provider,
 } from "react-redux";
-// Import your global state slice reducer
+// Import global state slice reducer
 import globalReducer from "@/state";
-// Import your RTK Query API slice which handles API calls
+// Import RTK Query API slice which handles API calls
 import { api } from "@/state/api";
 // Enable refetching on focus/refetch behaviors provided by RTK Query.
 import { setupListeners } from "@reduxjs/toolkit/query";
@@ -27,7 +27,7 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-// PersistGate delays the rendering of your UI until the persisted state is rehydrated
+// PersistGate delays the rendering of UI until the persisted state is rehydrated
 import { PersistGate } from "redux-persist/integration/react";
 // Utility to create a storage instance (here, for localStorage)
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
@@ -61,11 +61,11 @@ const storage =
 const persistConfig = {
   key: "root", // The key in storage under which the persisted data is saved
   storage, // The storage engine chosen above (localStorage or dummy)
-  whitelist: ["global"], // Only persist the 'global' slice of your state
+  whitelist: ["global"], // Only persist the 'global' slice of state
 };
 
-// Combine your app's reducers into a single root reducer.
-// This includes your global state and the RTK Query API slice.
+// Combine the app's reducers into a single root reducer.
+// This includes the global state and the RTK Query API slice.
 const rootReducer = combineReducers({
   global: globalReducer, // Global state slice
   [api.reducerPath]: api.reducer, // RTK Query API slice, integrated using its reducerPath
@@ -98,7 +98,7 @@ export const makeStore = () => {
 /*        REDUX TYPES             */
 /* ============================== */
 
-// TypeScript type definitions for your store, state, and dispatch function
+// TypeScript type definitions for store, state, and dispatch function
 export type AppStore = ReturnType<typeof makeStore>;
 export type RootState = ReturnType<AppStore["getState"]>;
 export type AppDispatch = AppStore["dispatch"];
@@ -113,7 +113,7 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 /*          PROVIDER              */
 /* ============================== */
 
-// Provider component that wraps your app with Redux and persistence capabilities
+// Provider component that wraps the app with Redux and persistence capabilities
 export default function StoreProvider({
   children,
 }: {
@@ -131,7 +131,7 @@ export default function StoreProvider({
   // Create a persistor which will handle the rehydration of the store state from storage.
   const persistor = persistStore(storeRef.current);
 
-  // Provide the Redux store to the rest of your app.
+  // Provide the Redux store to the rest of the app.
   // PersistGate delays the UI rendering until the persisted state is retrieved and loaded.
   return (
     <Provider store={storeRef.current}>

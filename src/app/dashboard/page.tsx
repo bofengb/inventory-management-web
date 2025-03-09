@@ -65,10 +65,8 @@ const Dashboard = () => {
       <CardOrderSummary />
       <CardExpenseSummary />
       <StatCard
-        // title="Customer & Expenses"
         title="Sales & Purchases"
         primaryIcon={<Tag className="text-blue-600 w-6 h-6" />}
-        // dateRange="22 - 29 October 2023"
         dateRange={dateRange}
         details={[
           {

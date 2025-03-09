@@ -14,8 +14,8 @@ const columns: GridColDef[] = [
     headerName: "Amount",
     width: 120,
     type: "number",
-    // Note: For proper filtering, it’s best that the underlying value remains numeric.
-    // You might consider separating the display formatting from the filtering value.
+    // For proper filtering, it’s best that the underlying value remains numeric.
+    // Consider separating the display formatting from the filtering value.
     valueGetter: (value, row) => row.totalAmount,
     renderCell: (params) => `$${params.value}`,
   },
@@ -48,7 +48,7 @@ const Order = () => {
 
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
 
-  // Optionally, you can create a theme here too
+  // Create the theme here
   const theme = createTheme({
     palette: {
       mode: isDarkMode ? "dark" : "light",
