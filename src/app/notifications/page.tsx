@@ -42,6 +42,9 @@ function Notifications() {
       {/* Render the Toaster component for Sonner toast notifications */}
       <Toaster richColors closeButton position="bottom-center" />
       <Header name="Notifications" />
+      <p className="text-sm text-gray-500">
+        Display only notifications from this year.
+      </p>
       <div className="overflow-x-auto mt-5 shadow-md">
         <table className="min-w-full bg-white rounded-lg">
           <thead>
