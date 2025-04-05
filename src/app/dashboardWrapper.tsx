@@ -6,6 +6,8 @@ import React, { useEffect } from "react";
 import Navbar from "@/app/(components)/Navbar";
 import Sidebar from "@/app/(components)/Sidebar";
 import StoreProvider, { useAppSelector } from "./redux";
+import { ThemeProvider, CssBaseline } from "@mui/material";
+import { darkTheme, lightTheme } from "@/app/products/muiTheme";
 
 // DashboardLayout defines the common layout structure for the dashboard.
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
@@ -19,29 +21,35 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   // useEffect runs after the component renders.
   // It adds a CSS class to the document's root element (<html>) depending on the dark mode flag.
   useEffect(() => {
+    // Add the appropriate class when the theme changes
     if (isDarkMode) {
       document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
     } else {
       document.documentElement.classList.add("light");
+      document.documentElement.classList.remove("dark");
     }
   });
 
   return (
-    <div
-      className={`${
-        isDarkMode ? "dark" : "light"
-      } flex bg-gray-50 text-gray-900 w-full min-h-screen`}
-    >
-      <Sidebar />
-      <main
-        className={`flex flex-col w-full h-full py-7 px-9 bg-gray-50 ${
-          isSidebarCollapsed ? "md:pl-24" : "md:pl-72"
-        }`}
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+      <CssBaseline />
+      <div
+        className={`${
+          isDarkMode ? "dark" : "light"
+        } flex bg-gray-50 text-gray-900 w-full min-h-screen`}
       >
-        <Navbar />
-        {children}
-      </main>
-    </div>
+        <Sidebar />
+        <main
+          className={`flex flex-col w-full h-full py-7 px-9 bg-gray-50 ${
+            isSidebarCollapsed ? "md:pl-24" : "md:pl-72"
+          }`}
+        >
+          <Navbar />
+          {children}
+        </main>
+      </div>
+    </ThemeProvider>
   );
 };
 

@@ -1,12 +1,22 @@
 "use client";
 
 import {
+  useGetProductDetailInfoQuery,
   // useCreateProductMutation,
   useGetProductsQuery,
   useGetProductsSearchQuery,
 } from "@/state/api";
-import { PlusCircleIcon, SearchIcon } from "lucide-react";
-import { useState } from "react";
+import { PlusCircleIcon, SearchIcon, X } from "lucide-react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Typography,
+  Chip,
+  CircularProgress,
+  IconButton,
+} from "@mui/material";
+import { useEffect, useState } from "react";
 import Header from "@/app/(components)/Header";
 import Rating from "../(components)/Rating";
 import CreateProductModal from "./CreateProductModal";
@@ -21,7 +31,11 @@ type ProductFormData = {
 
 const Products = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedProductId, setSelectedProductId] = useState<number | null>(
+    null
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   // When there's no search term, fetch all products.
   const {
@@ -45,6 +59,24 @@ const Products = () => {
   const displayedProducts = searchTerm ? productSearch : products;
   const isLoading = searchTerm ? isLoadingSearch : isLoadingProducts;
   const isError = searchTerm ? isErrorSearch : isErrorProducts;
+
+  // Get product details
+  const { data: detailData } = useGetProductDetailInfoQuery(
+    selectedProductId!,
+    {
+      skip: selectedProductId === null,
+    }
+  );
+
+  const handleProductClick = (productId: number) => {
+    setSelectedProductId(productId);
+    setIsDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+    setSelectedProductId(null);
+  };
 
   // const [createProduct] = useCreateProductMutation();
   // const handleCreateProduct = async (productData: ProductFormData) => {
@@ -137,7 +169,8 @@ const Products = () => {
           displayedProducts?.map((product, index) => (
             <div
               key={index}
-              className="border shadow rounded-md p-4 max-w-full w-full mx-auto"
+              className="border shadow rounded-md p-4 max-w-full w-full mx-auto bg-white cursor-pointer active:shadow-2xl"
+              onClick={() => handleProductClick(index + 1)}
             >
               <div className="flex flex-col items-center">
                 <Image
@@ -174,6 +207,123 @@ const Products = () => {
         onClose={() => setIsModalOpen(false)}
         onCreate={handleCreateProduct}
       /> */}
+
+      <Dialog
+        open={isDialogOpen}
+        onClose={handleCloseDialog}
+        maxWidth="md"
+        fullWidth
+      >
+        <DialogTitle>
+          <div className="flex justify-between items-center">
+            <span>Product Details</span>
+            <IconButton onClick={handleCloseDialog}>
+              <X />
+            </IconButton>
+          </div>
+        </DialogTitle>
+        <DialogContent dividers>
+          {detailData ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Product Image and Basic Info */}
+              <div className="flex flex-col items-center">
+                <Image
+                  src={
+                    validSlugs.has(generateSlug(detailData.productName))
+                      ? `https://deploy-app-ims.s3.us-east-1.amazonaws.com/${generateSlug(
+                          detailData.productName
+                        )}.png`
+                      : `https://deploy-app-ims.s3.us-east-1.amazonaws.com/to-be-determined.png`
+                  }
+                  alt={detailData.productName}
+                  width={200}
+                  height={200}
+                  className="rounded-2xl mb-4 w-48 h-48"
+                />
+                <h2 className="text-xl font-semibold text-gray-800 mb-2">
+                  {detailData.productName}
+                </h2>
+                <p className="text-gray-600 text-lg mb-1">
+                  Base Price: ${detailData.basePrice.toFixed(2)}
+                </p>
+                {/* {detailData.rating !== undefined && (
+            <Rating rating={detailData.rating} />
+          )} */}
+                {detailData.rating !== undefined && (
+                  <div className="flex flex-row items-center mt-1">
+                    <Rating rating={detailData.rating} />
+                  </div>
+                )}
+              </div>
+
+              {/* Detailed Stats */}
+              <div className="space-y-3 text-gray-800">
+                <p>
+                  <strong>Units Sold:</strong> {detailData.totalUnitsSold}
+                </p>
+                <p>
+                  <strong>Total Revenue:</strong> $
+                  {(detailData.totalUnitsSold * detailData.basePrice).toFixed(
+                    2
+                  )}
+                </p>
+                <p>
+                  <strong>Total Customers:</strong> {detailData.totalCustomers}
+                </p>
+                {/* <p><strong>Estimated Profit:</strong> ${detailData.estimatedProfit.toFixed(2)}</p> */}
+                <p>
+                  <strong>Inventory Movement Rate:</strong>{" "}
+                  {detailData.inventoryMovementRate.toFixed(2)}%
+                </p>
+
+                {/* Inventory Level Indicator */}
+                <div className="space-y-2">
+                  <p>
+                    <strong>Inventory Status:</strong>
+                  </p>
+
+                  {(() => {
+                    const maxInventory = 150;
+                    const percentage = Math.min(
+                      (-detailData.inventoryLeft / maxInventory) * 100,
+                      100
+                    );
+
+                    const colorClass =
+                      -detailData.inventoryLeft <= 40
+                        ? "bg-red-500 text-white"
+                        : -detailData.inventoryLeft <= 80
+                        ? "bg-yellow-400 text-gray-800"
+                        : "bg-green-500 text-white";
+
+                    return (
+                      <div className="relative w-full h-6 bg-gray-200 rounded-full overflow-hidden">
+                        <div
+                          className={`h-full flex items-center justify-center text-xs font-semibold transition-all duration-700 ease-out ${colorClass}`}
+                          style={{ width: `${percentage}%` }}
+                        >
+                          {-detailData.inventoryLeft} units
+                        </div>
+                      </div>
+                    );
+                  })()}
+
+                  {/* Low Stock Alert */}
+                  {-detailData.inventoryLeft <= 40 && (
+                    <div className="inline-block bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
+                      ⚠ Low Stock
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="flex justify-center py-10">
+              <CircularProgress />
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

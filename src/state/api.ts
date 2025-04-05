@@ -72,7 +72,7 @@ export interface OrderDetails {
 // }
 
 export interface Product {
-  productId: string;
+  productId: number;
   name: string;
   basePrice: number;
   rating?: number;
@@ -82,6 +82,20 @@ export interface ProductCreate {
   name: string;
   basePrice: number;
   rating?: number;
+}
+
+export interface ProductDetailInfo {
+  productId: number;
+  productName: string;
+  basePrice: number;
+  rating?: number;
+  totalUnitsSold: number;
+  totalRevenue: number;
+  totalCustomers: number;
+  inventoryLeft: number;
+  lowStockAlert: boolean;
+  estimatedProfit: number;
+  inventoryMovementRate: number;
 }
 
 export interface Customer {
@@ -142,6 +156,7 @@ export const api = createApi({
     "StatisticAnalysis",
     "Products",
     "ProductsSearch",
+    "ProductDetailInfo",
     "OrderDetails",
     "Customers",
     "OrderByStatus",
@@ -191,6 +206,10 @@ export const api = createApi({
         params: { name: search },
       }),
       providesTags: ["Products"],
+    }),
+    getProductDetailInfo: build.query<ProductDetailInfo, number | void>({
+      query: (productId) => `/rest/products/${productId}`,
+      providesTags: ["ProductDetailInfo"],
     }),
     // createProduct: build.mutation<Product, ProductCreate>({
     //   query: (newProduct) => ({
@@ -245,6 +264,7 @@ export const {
   useGetStatisticAnalysisQuery,
   useGetProductsQuery,
   useGetProductsSearchQuery,
+  useGetProductDetailInfoQuery,
   // useCreateProductMutation,
   useGetOrderDetailsQuery,
   useGetCustomersQuery,
