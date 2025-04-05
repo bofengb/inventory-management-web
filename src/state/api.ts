@@ -208,7 +208,7 @@ export const api = createApi({
       providesTags: ["Products"],
     }),
     getProductDetailInfo: build.query<ProductDetailInfo, number | void>({
-      query: (productId) => `/rest/products/${productId}`,
+      query: (productId) => `/rest/products/detail/${productId}`,
       providesTags: ["ProductDetailInfo"],
     }),
     // createProduct: build.mutation<Product, ProductCreate>({
