@@ -246,9 +246,6 @@ const Products = () => {
                 <p className="text-gray-600 text-lg mb-1">
                   Base Price: ${detailData.basePrice.toFixed(2)}
                 </p>
-                {/* {detailData.rating !== undefined && (
-            <Rating rating={detailData.rating} />
-          )} */}
                 {detailData.rating !== undefined && (
                   <div className="flex flex-row items-center mt-1">
                     <Rating rating={detailData.rating} />
@@ -257,20 +254,10 @@ const Products = () => {
               </div>
 
               {/* Detailed Stats */}
-              <div className="space-y-3 text-gray-800">
-                <p>
-                  <strong>Units Sold:</strong> {detailData.totalUnitsSold}
-                </p>
-                <p>
-                  <strong>Total Revenue:</strong> $
-                  {(detailData.totalUnitsSold * detailData.basePrice).toFixed(
-                    2
-                  )}
-                </p>
+              <div className="space-y-4 text-gray-800">
                 <p>
                   <strong>Total Customers:</strong> {detailData.totalCustomers}
                 </p>
-                {/* <p><strong>Estimated Profit:</strong> ${detailData.estimatedProfit.toFixed(2)}</p> */}
                 <p>
                   <strong>Inventory Movement Rate:</strong>{" "}
                   {detailData.inventoryMovementRate.toFixed(2)}%
@@ -285,14 +272,14 @@ const Products = () => {
                   {(() => {
                     const maxInventory = 150;
                     const percentage = Math.min(
-                      (-detailData.inventoryLeft / maxInventory) * 100,
+                      (detailData.inventoryLeft / maxInventory) * 100,
                       100
                     );
 
                     const colorClass =
-                      -detailData.inventoryLeft <= 40
+                      detailData.inventoryLeft <= 40
                         ? "bg-red-500 text-white"
-                        : -detailData.inventoryLeft <= 80
+                        : detailData.inventoryLeft <= 80
                         ? "bg-yellow-400 text-gray-800"
                         : "bg-green-500 text-white";
 
@@ -302,14 +289,14 @@ const Products = () => {
                           className={`h-full flex items-center justify-center text-xs font-semibold transition-all duration-700 ease-out ${colorClass}`}
                           style={{ width: `${percentage}%` }}
                         >
-                          {-detailData.inventoryLeft} units
+                          {detailData.inventoryLeft} units
                         </div>
                       </div>
                     );
                   })()}
 
                   {/* Low Stock Alert */}
-                  {-detailData.inventoryLeft <= 40 && (
+                  {detailData.inventoryLeft <= 40 && (
                     <div className="inline-block bg-red-100 text-red-800 text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
                       ⚠ Low Stock
                     </div>

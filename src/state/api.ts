@@ -89,12 +89,8 @@ export interface ProductDetailInfo {
   productName: string;
   basePrice: number;
   rating?: number;
-  totalUnitsSold: number;
-  totalRevenue: number;
   totalCustomers: number;
   inventoryLeft: number;
-  lowStockAlert: boolean;
-  estimatedProfit: number;
   inventoryMovementRate: number;
 }
 
